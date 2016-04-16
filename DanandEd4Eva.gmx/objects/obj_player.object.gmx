@@ -140,13 +140,13 @@ ds_grid_set(grd_shape1_lines,1,11,5);
 ds_grid_set(grd_shape1_lines,0,12,4);
 ds_grid_set(grd_shape1_lines,1,12,6);
 
-
+/*
 //plot stars
 for (i=0;i&lt;NO_STARS;i++){
   x=ds_grid_get(curr_grd,0,i) * X_STEP;
   y=ds_grid_get(curr_grd,1,i) * Y_STEP;
   instance_create(x,y,obj_star);
-}
+}*/
 
 //draw_line_width(1,2000,1,2000,LINE_WIDTH*100);
 </string>
@@ -172,7 +172,6 @@ for (i=0;i&lt;NO_STARS;i++){
           <argument>
             <kind>1</kind>
             <string>//plot lines
-
 for (i=0;i&lt;14;i++){
   point1=ds_grid_get(grd_shape1_lines,0,i);
   point2=ds_grid_get(grd_shape1_lines,1,i);
@@ -182,6 +181,15 @@ for (i=0;i&lt;14;i++){
   y2=ds_grid_get(curr_grd,1,point2) * Y_STEP;
   draw_set_colour(c_black);
   draw_line_width(x1,y1,x2,y2,5);
+}
+
+//plot stars
+for (i=0;i&lt;NO_STARS;i++){
+  draw_set_color(c_white);
+  x=ds_grid_get(curr_grd,0,i) * X_STEP;
+  y=ds_grid_get(curr_grd,1,i) * Y_STEP;
+  draw_circle(x,y,5,false);
+  //instance_create(x,y,obj_star);
 }
 </string>
           </argument>

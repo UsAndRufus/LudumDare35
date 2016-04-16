@@ -11,6 +11,7 @@
     <sprite>sprites\spr_platform_man</sprite>
     <sprite>sprites\spr_sword</sprite>
     <sprite>sprites\spr_wall</sprite>
+    <sprite>sprites\spr_player_blank</sprite>
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>
@@ -32,10 +33,13 @@
     <object>objects\obj_star</object>
   </objects>
   <rooms name="rooms">
-    <room>rooms\room0</room>
     <room>rooms\rm_platform_test</room>
+    <room>rooms\room0</room>
     <room>rooms\rm_tst</room>
   </rooms>
+  <constants number="1">
+    <constant name="GRAV">1</constant>
+  </constants>
   <help>
     <rtf>help.rtf</rtf>
   </help>

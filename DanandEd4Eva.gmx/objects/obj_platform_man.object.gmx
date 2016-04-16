@@ -25,19 +25,12 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// Init variables
-hsp = 0;
-vsp = 0;
-movespeed = 4;
-jumpspeed_normal = 30;
-jumpspeed_powerup = 60;
+            <string>/// Create sword
 
-jumpspeed = jumpspeed_normal;
+sword = instance_create(x + width / 2, y, obj_sword);
+sword.owner = id;
 
-width = sprite_get_width(sprite_index);
-height = sprite_get_height(sprite_index);
 
-base = y + height / 2;
 </string>
           </argument>
         </arguments>
@@ -58,12 +51,19 @@ base = y + height / 2;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// Create sword
+            <string>/// Init variables
+hsp = 0;
+vsp = 0;
+movespeed = 4;
+jumpspeed_normal = 30;
+jumpspeed_powerup = 60;
 
-sword = instance_create(x + width / 2, y, obj_sword);
-sword.owner = id;
+jumpspeed = jumpspeed_normal;
 
+width = sprite_get_width(sprite_index);
+height = sprite_get_height(sprite_index);
 
+base = y + height / 2;
 </string>
           </argument>
         </arguments>

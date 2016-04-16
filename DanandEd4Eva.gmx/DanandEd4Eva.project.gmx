@@ -36,6 +36,9 @@
     <room>rooms\rm_platform_test</room>
     <room>rooms\rm_tst</room>
   </rooms>
+  <constants number="1">
+    <constant name="animation_frames">10</constant>
+  </constants>
   <help>
     <rtf>help.rtf</rtf>
   </help>

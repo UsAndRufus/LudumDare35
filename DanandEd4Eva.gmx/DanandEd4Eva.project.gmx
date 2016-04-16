@@ -9,18 +9,22 @@
     <sprite>sprites\spr_platform_man</sprite>
     <sprite>sprites\spr_wall</sprite>
     <sprite>sprites\spr_enemy</sprite>
+    <sprite>sprites\spr_sword</sprite>
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>
   <scripts name="scripts">
     <script>scripts\horizontal_move_with_collision.gml</script>
     <script>scripts\vertical_move_with_collision.gml</script>
+    <script>scripts\trace.gml</script>
+    <script>scripts\tween.gml</script>
   </scripts>
   <objects name="objects">
     <object>objects\object0</object>
     <object>objects\obj_platform_man</object>
     <object>objects\obj_wall</object>
     <object>objects\obj_enemy</object>
+    <object>objects\obj_sword</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\rm_platform_test</room>

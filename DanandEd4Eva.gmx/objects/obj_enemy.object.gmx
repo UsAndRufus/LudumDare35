@@ -31,7 +31,9 @@ dir = -1;
 movespeed = 3;
 hsp = 0;
 vsp = 0;
-fearofheights = 0;
+
+width = sprite_get_width(sprite_index);
+height = sprite_get_height(sprite_index);
 </string>
           </argument>
         </arguments>
@@ -70,32 +72,7 @@ if (place_meeting(x+hsp,y,obj_wall)) {
 x += hsp;
 
 
-//Vertical Collision
-if (place_meeting(x,y+vsp,obj_wall)) {
-    while(!place_meeting(x,y+sign(vsp),obj_wall)) {
-        y += sign(vsp);
-    }
-    vsp = 0;
-    
-    if (fearofheights) 
-        &amp;&amp; !position_meeting(x+(sprite_width/2)*dir,y+(sprite_height/2)+8, obj_wall) {
-            dir *= -1;
-        } 
-}
-
-y += vsp;
-
-//Player Collision
-if (place_meeting(x,y,obj_platform_man)) {
-    if (obj_platform_man.y &lt; y-16) {
-        with (obj_platform_man) {
-            vsp = -jumpspeed;
-        }
-        instance_destroy();
-    } else {
-        game_restart();
-    }
-}
+vertical_move_with_collision(obj_wall);
 </string>
           </argument>
         </arguments>

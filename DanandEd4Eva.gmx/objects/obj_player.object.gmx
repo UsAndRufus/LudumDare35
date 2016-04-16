@@ -25,17 +25,22 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>NO_STARS=13;
+            <string>
+NO_STARS=13;
 WIDTH=200;
 LENGTH=200;
 X_STEP=20;
 Y_STEP=20;
 LINE_WIDTH=10;
+
+//used for transitioning states
+currFrame=0;
 enum state{
   ORION_STATE1,
+  ORION_STATE1to2,
   ORION_STATE2
 };
-curr_state=state.ORION_STATE1;
+curr_state=state.ORION_STATE2;
 //shape1, state 1
 grd_shape1=ds_grid_create(2,NO_STARS);
 //first col is x co-ord, second is y
@@ -106,10 +111,6 @@ ds_grid_set(grd_shape1_state2,1,11,20);
 ds_grid_set(grd_shape1_state2,0,12,10);
 ds_grid_set(grd_shape1_state2,1,12,24);
 
-if(curr_state=state.ORION_STATE1)
-  curr_grd=grd_shape1;
-if(curr_state=state.ORION_STATE2)
-  curr_grd=grd_shape1_state2;
 
 grd_shape1_lines=ds_grid_create(2,14);
 //each col represents a row in the grd_shape grid
@@ -236,6 +237,30 @@ base = y + height;
         </arguments>
       </action>
     </event>
+    <event eventtype="3" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>curr_state=state.ORION_STATE1to2;
+currFrame++;
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
     <event eventtype="8" enumb="0">
       <action>
         <libid>1</libid>
@@ -253,7 +278,31 @@ base = y + height;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>//plot lines
+            <string>new_grd=ds_grid_create(2,NO_STARS);
+
+if(curr_state==state.ORION_STATE1)
+  curr_grd=grd_shape1;
+if(curr_state==state.ORION_STATE2)
+  curr_grd=grd_shape1_state2;
+if(curr_state=state.ORION_STATE1to2){
+  if(currFrame&lt;=animation_frames){
+    for(i=0;i&lt;NO_STARS;i++){
+      xOrig=ds_grid_get(grd_shape1,0,i);
+      yOrig=ds_grid_get(grd_shape1,1,i);
+      xNew=ds_grid_get(grd_shape1_state2,0,i);
+      yNew=ds_grid_get(grd_shape1_state2,1,i);
+      xDiff=(xNew-xOrig)*(currFrame/animation_frames);
+      yDiff=(yNew-yOrig)*(currFrame/animation_frames);
+      ds_grid_set(new_grd,0,i,xOrig+xDiff);
+      ds_grid_set(new_grd,1,i,yOrig+yDiff);
+    }
+    curr_grd=new_grd;
+  } else {
+    curr_state=state.ORION_STATE2;
+  }
+}
+
+//plot lines
 for (i=0;i&lt;14;i++){
   point1=ds_grid_get(grd_shape1_lines,0,i);
   point2=ds_grid_get(grd_shape1_lines,1,i);

@@ -12,6 +12,10 @@
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>
+  <scripts name="scripts">
+    <script>scripts\horizontal_move_with_collision.gml</script>
+    <script>scripts\vertical_move_with_collision.gml</script>
+  </scripts>
   <objects name="objects">
     <object>objects\object0</object>
     <object>objects\obj_platform_man</object>

@@ -29,7 +29,6 @@
 
 dir = -1;
 movespeed = 3;
-grav = 0.2;
 hsp = 0;
 vsp = 0;
 fearofheights = 0;
@@ -56,7 +55,7 @@ fearofheights = 0;
           <argument>
             <kind>1</kind>
             <string>hsp = dir * movespeed;
-vsp  += grav;
+vsp  += GRAV;
 
 //Horizontal Collision
 if (place_meeting(x+hsp,y,obj_wall)) {

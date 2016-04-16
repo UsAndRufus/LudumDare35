@@ -3,7 +3,7 @@
   <spriteName>spr_platform_man</spriteName>
   <solid>0</solid>
   <visible>-1</visible>
-  <depth>0</depth>
+  <depth>4</depth>
   <persistent>0</persistent>
   <parentName>&lt;undefined&gt;</parentName>
   <maskName>&lt;undefined&gt;</maskName>
@@ -26,12 +26,11 @@
           <argument>
             <kind>1</kind>
             <string>/// Init variables
-grav = 0.2;
 hsp = 0;
 vsp = 0;
 movespeed = 4;
-jumpspeed_normal = 7;
-jumpspeed_powerup = 10;
+jumpspeed_normal = 10;
+jumpspeed_powerup = 20;
 
 jumpspeed = jumpspeed_normal;
 </string>
@@ -66,32 +65,21 @@ key_jump = keyboard_check_pressed(vk_space);
 //React to inputs
 move = key_left + key_right;
 hsp = move * movespeed;
-if (vsp &lt; 10) vsp += grav;
 
+//gravity
+if (vsp &lt; 15) {
+    vsp += GRAV;
+} 
+
+// let the player jump if touching a wall
 if (place_meeting(x,y+1,obj_wall)) {
     vsp = key_jump * -jumpspeed;
 }
 
-//Horizontal Collision
-if (place_meeting(x+hsp,y,obj_wall)) {
-    while(!place_meeting(x+sign(hsp),y,obj_wall)) {
-        x += sign(hsp);
-    }
-    hsp = 0;
-}
 
-x += hsp;
+horizontal_move_with_collision(obj_wall);
+vertical_move_with_collision(obj_wall);
 
-
-//Vertical Collision
-if (place_meeting(x,y+vsp,obj_wall)) {
-    while(!place_meeting(x,y+sign(vsp),obj_wall)) {
-        y += sign(vsp);
-    }
-    vsp = 0;
-}
-
-y += vsp;
 </string>
           </argument>
         </arguments>

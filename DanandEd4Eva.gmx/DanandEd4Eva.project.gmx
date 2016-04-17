@@ -34,12 +34,12 @@
   </objects>
   <rooms name="rooms">
     <room>rooms\rm_platform_test</room>
+    <room>rooms\rm_main</room>
     <room>rooms\rm_tst</room>
     <room>rooms\room0</room>
-    <room>rooms\rm_main</room>
   </rooms>
   <constants number="2">
-    <constant name="GRAV">5</constant>
+    <constant name="GRAV">2</constant>
     <constant name="animation_frames">20</constant>
   </constants>
   <help>

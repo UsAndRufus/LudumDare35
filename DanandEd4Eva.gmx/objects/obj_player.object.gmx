@@ -52,7 +52,7 @@ enum state{
   AQUILA_STATE_DIVE
 };
 //curr_state=state.AQUILA_STATE1;
-curr_state=state.ORION_STATE1to2;
+curr_state=state.ORION_STATE1;
 grd_aqu_s1=ds_grid_create(2,AQUILA_NO_STARS);
 //left wing
 ds_grid_set(grd_aqu_s1,0,0,3);
@@ -329,6 +329,8 @@ vsp = 0;
 movespeed = 10;
 jumpspeed_normal = 30;
 
+moving = false;
+
 jumpspeed = jumpspeed_normal;
 
 width = 16 * X_STEP
@@ -368,6 +370,11 @@ key_jump = keyboard_check_pressed(vk_space);
 move = key_left + key_right;
 hsp = move * movespeed;
 
+if (move != 0) {
+    moving = true;
+} else {
+    moving = false ;
+}
 /*
 //gravity
 if (vsp &lt; 15) {
@@ -409,19 +416,36 @@ base = y + height;
           <argument>
             <kind>1</kind>
             <string>///Animate
+if (moving &amp;&amp; curr_state==state.ORION_STATE1) {
+    curr_state = state.ORION_STATE1to2;
+}
+
+if (moving &amp;&amp; curr_state==state.ORION_STATE2) {
+    curr_state = state.ORION_STATE2to1;
+}
 
 //show_message("current state is " + string(curr_state)+", currFrame is " +string(currFrame));
 if(curr_state==state.ORION_STATE1to2){
-  if (currFrame==animation_frames)
-    curr_state=state.ORION_STATE2to1;
-  else
+  if (currFrame==animation_frames) {
+    if (moving) {
+        curr_state=state.ORION_STATE2to1;
+    } else {
+        curr_state=state.ORION_STATE2;
+    }
+  } else {
     currFrame++;
+  }
 }
 if(curr_state==state.ORION_STATE2to1){
-  if (currFrame==1)
-    curr_state=state.ORION_STATE1to2;
-  else
+  if (currFrame==1) {
+    if (moving) {
+        curr_state=state.ORION_STATE1to2;
+    } else {
+        curr_state=state.ORION_STATE1;
+    }
+  } else {
     currFrame--;
+  }
 }
 if(curr_state==state.ORION_STATE2toATTACK){
   if (currFrame==animation_frames)

@@ -69,8 +69,17 @@ if (place_meeting(x+hsp,y,obj_wall)) {
     dir *= -1;
 }
 
-x += hsp;
+if (place_meeting(x+hsp,y,obj_player)) {
+    hsp = 0;
+    
+    other.lives -= 1;
+    
+    instance_destroy();
+}
 
+
+
+x += hsp;
 
 vertical_move_with_collision(obj_wall);
 </string>

@@ -13,6 +13,7 @@
     <sprite>sprites\spr_wall</sprite>
     <sprite>sprites\sprite5</sprite>
     <sprite>sprites\spr_player_blank</sprite>
+    <sprite>sprites\spr_spawner</sprite>
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>
@@ -23,6 +24,9 @@
     <script>scripts\vertical_move_with_collision.gml</script>
     <script>scripts\horizontal_move_with_collision.gml</script>
   </scripts>
+  <fonts name="fonts">
+    <font>fonts\aril</font>
+  </fonts>
   <objects name="objects">
     <object>objects\obj_enemy</object>
     <object>objects\obj_platform_man</object>
@@ -31,6 +35,8 @@
     <object>objects\obj_wall</object>
     <object>objects\obj_player</object>
     <object>objects\obj_governor</object>
+    <object>objects\obj_spawner</object>
+    <object>objects\obj_coin</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\rm_gm48</room>

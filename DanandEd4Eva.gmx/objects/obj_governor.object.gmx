@@ -29,6 +29,116 @@
           </argument>
         </arguments>
       </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Setup
+
+coin_timer = 300;
+
+min_time = 200;
+max_time = 400;
+
+num_spawners = 6;
+spawners[5] = instance_create(640,1280,obj_spawner);
+spawners[4] = instance_create(2432,1280,obj_spawner);
+spawners[3] = instance_create(1600,1600,obj_spawner);
+spawners[2] = instance_create(1600,512,obj_spawner);
+spawners[1] = instance_create(640,960,obj_spawner);
+spawners[0] = instance_create(2432,960,obj_spawner);
+
+current_spawner = spawners[irandom_range(0,num_spawners-1)];
+current_spawner.is_current = true;
+
+alarm[0] = irandom_range(min_time,max_time);
+
+alarm[1] = coin_timer;
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="2" enumb="1">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Create coin
+coin_x = irandom(3200);
+coin_y = irandom(1792);
+
+instance_create(coin_x, coin_y, obj_coin);
+
+alarm[1] = coin_timer;
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="2" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>// Spawn enemy
+instance_create(current_spawner.x, current_spawner.y, obj_enemy);
+
+// get new spawners and reset timer
+current_spawner = spawners[irandom_range(0,num_spawners-1)];
+current_spawner.is_current = true;
+
+alarm[0] = irandom_range(min_time,max_time);
+
+max_time -= 10;
+if max_time &lt; 50 {
+    max_time = 50;
+}
+min_time = max_time / 10;
+
+
+
+
+</string>
+          </argument>
+        </arguments>
+      </action>
     </event>
     <event eventtype="5" enumb="27">
       <action>

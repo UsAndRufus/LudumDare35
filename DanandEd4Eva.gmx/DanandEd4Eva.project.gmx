@@ -30,16 +30,15 @@
     <object>objects\obj_wall</object>
     <object>objects\object0</object>
     <object>objects\obj_player</object>
-    <object>objects\obj_star</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\rm_platform_test</room>
     <room>rooms\room0</room>
     <room>rooms\rm_tst</room>
+    <room>rooms\rm_main</room>
   </rooms>
   <constants number="1">
     <constant name="GRAV">1</constant>
-    <constant name="animation_frames">10</constant>
   </constants>
   <help>
     <rtf>help.rtf</rtf>

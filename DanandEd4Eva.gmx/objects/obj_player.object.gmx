@@ -33,8 +33,8 @@ TAURUS_NO_STARS=21;
 TAURUS_NO_LINES=22;
 WIDTH=200;
 LENGTH=200;
-X_STEP=20;
-Y_STEP=20;
+X_STEP=16;
+Y_STEP=16;
 LINE_WIDTH=10;
 
 //used for transitioning states
@@ -545,16 +545,21 @@ ds_grid_set(grd_shape1_lines,1,20,18);
 hsp = 0;
 vsp = 0;
 
-movespeed = 10;
+hsp_acceleration = 2;
+max_hsp = 32;
+
+fric = 1;
+
 jumpspeed = 45;
 terminal_velocity = 50;
 
+knockback = 28;
 dir = 1;
 
 moving = false;
 
-width = 18 * X_STEP
-height = 17 * Y_STEP
+width = 18 * X_STEP;
+height = 19 * Y_STEP;
 
 base = y + height;
 </string>
@@ -619,8 +624,8 @@ base = y + height;
             <kind>1</kind>
             <string>/// Create sword
 
-sword = instance_create(x + width / 2, y, obj_sword);
-sword.owner = id;
+//sword = instance_create(x + width / 2, y, obj_sword);
+//sword.owner = id;
 </string>
           </argument>
         </arguments>
@@ -643,9 +648,7 @@ sword.owner = id;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>///Animate
-
-if(keyboard_check_pressed(ord('S'))){
+            <string>if(keyboard_check_pressed(ord('S'))){
   switchnext=true;
   /*if ((curr_state==state.ORION_STATE1 ||curr_state==state.ORION_STATE1to2 
       || curr_state==state.ORION_STATE2to1||curr_state==state.ORION_STATE2
@@ -663,6 +666,7 @@ if(keyboard_check_pressed(ord('S'))){
       }*/
 }//keyboard check
 
+///Animate
 if (moving &amp;&amp; curr_state==state.ORION_STATE1) {
 //show_message("in if orion state 1");
   if(switchnext){
@@ -824,6 +828,9 @@ if(curr_state==state.TAURUS_STATE2to1){
             <kind>1</kind>
             <string>///Movement
 
+// let the player jump if touching a wall
+on_ground = place_meeting(x,y+1,obj_wall);
+
 //Get the player's input
 key_right = keyboard_check(vk_right);
 key_left = -keyboard_check(vk_left);
@@ -831,7 +838,11 @@ key_jump = keyboard_check_pressed(vk_space);
 
 //React to inputs
 move = key_left + key_right;
-hsp = move * movespeed;
+hsp += move * hsp_acceleration;
+
+if (abs(hsp) &gt; max_hsp) {
+    hsp = max_hsp * sign(hsp);
+}
 
 if (move == 1) {
     moving = true;
@@ -845,6 +856,17 @@ if (move == 1) {
     dir = -1;
 } else {
     moving = false;
+    
+    //slow down character
+    if (on_ground) {
+        var change = fric * sign(hsp);
+        if (sign(hsp) == sign(hsp - change)) {
+           hsp -= change;
+        } else {
+            hsp = 0;
+        }
+    }
+    
 }
 
 
@@ -854,7 +876,7 @@ if (vsp &lt; terminal_velocity) {
 } 
 
 // let the player jump if touching a wall
-if (place_meeting(x,y+1,obj_wall)) {
+if (on_ground) {
     vsp = key_jump * -jumpspeed;
 }
 
@@ -870,6 +892,22 @@ base = y + height;
 </string>
           </argument>
         </arguments>
+      </action>
+    </event>
+    <event eventtype="7" enumb="6">
+      <action>
+        <libid>1</libid>
+        <id>331</id>
+        <kind>0</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>0</useapplyto>
+        <exetype>1</exetype>
+        <functionname>action_restart_game</functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
       </action>
     </event>
     <event eventtype="8" enumb="0">
@@ -889,10 +927,7 @@ base = y + height;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// Draw constellation
-trace(currFrame);
-
-switchnext=false;
+            <string>switchnext=false;
 new_grd=ds_grid_create(2,ORION_NO_STARS);
 curr_grd=new_grd;
 curr_lines=grd_shape1_lines;
@@ -1172,7 +1207,7 @@ for (i=0;i&lt;no_stars;i++){
           </argument>
           <argument>
             <kind>5</kind>
-            <sprite>-100</sprite>
+            <sprite>star</sprite>
           </argument>
         </arguments>
       </action>

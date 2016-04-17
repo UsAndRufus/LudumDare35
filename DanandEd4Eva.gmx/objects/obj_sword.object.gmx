@@ -108,7 +108,7 @@ if (!attacking) {
     if (keyboard_check_pressed(ord('A'))) {
         attacking = true;
         stabbing = true;
-        owner.curr_state = state.ORION_STATE2toATTACK;
+        //owner.curr_state = state.ORION_STATE2toATTACK;
     }
 } else {
     how_long_stabbing += 1;

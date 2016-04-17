@@ -56,7 +56,9 @@ vsp = 0;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>hsp = dir * movespeed;
+            <string>/// Move and collide
+
+hsp = dir * movespeed;
 vsp  += GRAV;
 
 //Horizontal Collision
@@ -69,19 +71,39 @@ if (place_meeting(x+hsp,y,obj_wall)) {
     dir *= -1;
 }
 
-if (place_meeting(x+hsp,y,obj_player)) {
-    hsp = 0;
-    
-    other.lives -= 1;
-    
-    instance_destroy();
-}
-
-
-
 x += hsp;
 
-vertical_move_with_collision(obj_wall);
+//Vertical Collision
+if (place_meeting(x,y+vsp,obj_wall)) {
+    while(!place_meeting(x,y+sign(vsp),obj_wall)) {
+        y += sign(vsp);
+    }
+    vsp = 0;
+    
+    if !position_meeting(x+(sprite_width/2)*dir,y+(sprite_height/2)+8, obj_wall) {
+            dir *= -1;
+    } 
+}
+
+y += vsp;
+
+//Player Collision
+if (place_meeting(x,y,obj_player)) {
+
+    show_message("meeting");
+
+    trace((obj_player.y + obj_player.height), (y));//+(sprite_height / 2)));
+    if ((obj_player.y + obj_player.height) &lt; (y)){// +(sprite_height / 2))) {
+        instance_destroy();
+    } else {
+        dir *= -1;
+    
+        obj_player.lives -= 1;
+        obj_player.hsp = dir * -1 * obj_player.knockback;
+    }
+    
+    obj_player.vsp = -obj_player.jumpspeed;
+}
 </string>
           </argument>
         </arguments>

@@ -29,13 +29,12 @@
     <object>objects\obj_star</object>
     <object>objects\obj_sword</object>
     <object>objects\obj_wall</object>
-    <object>objects\object0</object>
     <object>objects\obj_player</object>
+    <object>objects\obj_governor</object>
   </objects>
   <rooms name="rooms">
+    <room>rooms\rm_gm48</room>
     <room>rooms\rm_main</room>
-    <room>rooms\room5</room>
-    <room>rooms\rm_platform_test</room>
     <room>rooms\rm_tst</room>
     <room>rooms\room0</room>
   </rooms>

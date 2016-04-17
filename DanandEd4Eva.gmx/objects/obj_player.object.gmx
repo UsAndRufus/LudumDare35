@@ -25,12 +25,12 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// Set up shape
-
-ORION_NO_STARS=19;
+            <string>ORION_NO_STARS=19;
 ORION_NO_LINES=21;
 AQUILA_NO_STARS=14;
-AQUILA_NO_LINES=7;//14
+AQUILA_NO_LINES=14;//14
+TAURUS_NO_STARS=21;
+TAURUS_NO_LINES=22;
 WIDTH=200;
 LENGTH=200;
 X_STEP=20;
@@ -49,10 +49,18 @@ enum state{
   AQUILA_STATE1,
   AQUILA_STATE1to2,
   AQUILA_STATE2,
-  AQUILA_STATE_DIVE
+  AQUILA_STATE2to1,
+  AQUILA_STATE_DIVE,
+  TAURUS_STATE1,
+  TAURUS_STATE2,
+  TAURUS_STATE1to2,
+  TAURUS_STATE2to1,
+  TAURUS_CHARGE,
+  ORION_TO_AQUILA,
+  AQUILA_TO_TAURUS,
+  TAURUS_TO_ORION
 };
-//curr_state=state.AQUILA_STATE1;
-curr_state=state.ORION_STATE1;
+curr_state=state.ORION_STATE1to2;
 grd_aqu_s1=ds_grid_create(2,AQUILA_NO_STARS);
 //left wing
 ds_grid_set(grd_aqu_s1,0,0,3);
@@ -88,14 +96,208 @@ ds_grid_set(grd_aqu_s1,1,12,5);
 ds_grid_set(grd_aqu_s1,0,13,16);
 ds_grid_set(grd_aqu_s1,1,13,6);
 
+
+grd_tau_s1=ds_grid_create(2,TAURUS_NO_STARS);
+//horns
+ds_grid_set(grd_tau_s1,0,0,7);
+ds_grid_set(grd_tau_s1,1,0,2);
+ds_grid_set(grd_tau_s1,0,1,1);
+ds_grid_set(grd_tau_s1,1,1,6);
+//head
+ds_grid_set(grd_tau_s1,0,2,10);
+ds_grid_set(grd_tau_s1,1,2,9);
+ds_grid_set(grd_tau_s1,0,3,7);
+ds_grid_set(grd_tau_s1,1,3,11);
+ds_grid_set(grd_tau_s1,0,4,12);
+ds_grid_set(grd_tau_s1,1,4,13);
+ds_grid_set(grd_tau_s1,0,5,11);
+ds_grid_set(grd_tau_s1,1,5,14);
+//body(top)
+ds_grid_set(grd_tau_s1,0,6,19);
+ds_grid_set(grd_tau_s1,1,6,6);
+ds_grid_set(grd_tau_s1,0,7,34);
+ds_grid_set(grd_tau_s1,1,7,8);
+ds_grid_set(grd_tau_s1,0,8,37);
+ds_grid_set(grd_tau_s1,1,8,13);
+//body(lower)
+ds_grid_set(grd_tau_s1,0,9,18);
+ds_grid_set(grd_tau_s1,1,9,16);
+ds_grid_set(grd_tau_s1,0,10,22);
+ds_grid_set(grd_tau_s1,1,10,17);
+ds_grid_set(grd_tau_s1,0,11,32);
+ds_grid_set(grd_tau_s1,1,11,17);
+//tail
+ds_grid_set(grd_tau_s1,0,12,40);
+ds_grid_set(grd_tau_s1,1,12,11);
+//front legs
+ds_grid_set(grd_tau_s1,0,13,12);
+ds_grid_set(grd_tau_s1,1,13,17);
+ds_grid_set(grd_tau_s1,0,14,14);
+ds_grid_set(grd_tau_s1,1,14,24);
+ds_grid_set(grd_tau_s1,0,15,16);
+ds_grid_set(grd_tau_s1,1,15,19);
+ds_grid_set(grd_tau_s1,0,16,18);
+ds_grid_set(grd_tau_s1,1,16,24);
+//rear legs
+ds_grid_set(grd_tau_s1,0,17,34);
+ds_grid_set(grd_tau_s1,1,17,21);
+ds_grid_set(grd_tau_s1,0,18,32);
+ds_grid_set(grd_tau_s1,1,18,24);
+ds_grid_set(grd_tau_s1,0,19,39);
+ds_grid_set(grd_tau_s1,1,19,19);
+ds_grid_set(grd_tau_s1,0,20,37);
+ds_grid_set(grd_tau_s1,1,20,24);
+
+grd_tau_s2=ds_grid_create(2,TAURUS_NO_STARS);
+//horns
+ds_grid_set(grd_tau_s2,0,0,7);
+ds_grid_set(grd_tau_s2,1,0,2);
+ds_grid_set(grd_tau_s2,0,1,1);
+ds_grid_set(grd_tau_s2,1,1,6);
+//head
+ds_grid_set(grd_tau_s2,0,2,10);
+ds_grid_set(grd_tau_s2,1,2,9);
+ds_grid_set(grd_tau_s2,0,3,7);
+ds_grid_set(grd_tau_s2,1,3,11);
+ds_grid_set(grd_tau_s2,0,4,12);
+ds_grid_set(grd_tau_s2,1,4,13);
+ds_grid_set(grd_tau_s2,0,5,11);
+ds_grid_set(grd_tau_s2,1,5,14);
+//body(top)
+ds_grid_set(grd_tau_s2,0,6,19);
+ds_grid_set(grd_tau_s2,1,6,6);
+ds_grid_set(grd_tau_s2,0,7,34);
+ds_grid_set(grd_tau_s2,1,7,8);
+ds_grid_set(grd_tau_s2,0,8,37);
+ds_grid_set(grd_tau_s2,1,8,13);
+//body(lower)
+ds_grid_set(grd_tau_s2,0,9,18);
+ds_grid_set(grd_tau_s2,1,9,16);
+ds_grid_set(grd_tau_s2,0,10,22);
+ds_grid_set(grd_tau_s2,1,10,17);
+ds_grid_set(grd_tau_s2,0,11,32);
+ds_grid_set(grd_tau_s2,1,11,17);
+//tail
+ds_grid_set(grd_tau_s2,0,12,40);
+ds_grid_set(grd_tau_s2,1,12,11);
+//front legs
+ds_grid_set(grd_tau_s2,0,13,15);
+ds_grid_set(grd_tau_s2,1,13,20);
+ds_grid_set(grd_tau_s2,0,14,18);
+ds_grid_set(grd_tau_s2,1,14,24);
+
+ds_grid_set(grd_tau_s2,0,15,16);
+ds_grid_set(grd_tau_s2,1,15,20);
+ds_grid_set(grd_tau_s2,0,16,14);
+ds_grid_set(grd_tau_s2,1,16,24);
+//rear legs
+ds_grid_set(grd_tau_s2,0,17,36);
+ds_grid_set(grd_tau_s2,1,17,20);
+ds_grid_set(grd_tau_s2,0,18,38);
+ds_grid_set(grd_tau_s2,1,18,24);
+
+ds_grid_set(grd_tau_s2,0,19,37);
+ds_grid_set(grd_tau_s2,1,19,19);
+ds_grid_set(grd_tau_s2,0,20,35);
+ds_grid_set(grd_tau_s2,1,20,24);
+
+grd_tau_lines=ds_grid_create(2,TAURUS_NO_LINES);
+//horns
+ds_grid_set(grd_tau_lines,0,0,0);
+ds_grid_set(grd_tau_lines,1,0,2);
+ds_grid_set(grd_tau_lines,0,1,1);
+ds_grid_set(grd_tau_lines,1,1,3);
+//head
+ds_grid_set(grd_tau_lines,0,2,2);
+ds_grid_set(grd_tau_lines,1,2,3);
+ds_grid_set(grd_tau_lines,0,3,3);
+ds_grid_set(grd_tau_lines,1,3,5);
+ds_grid_set(grd_tau_lines,0,4,5);
+ds_grid_set(grd_tau_lines,1,4,4);
+ds_grid_set(grd_tau_lines,0,5,4);
+ds_grid_set(grd_tau_lines,1,5,2);
+//top body
+ds_grid_set(grd_tau_lines,0,6,2);
+ds_grid_set(grd_tau_lines,1,6,6);
+ds_grid_set(grd_tau_lines,0,7,6);
+ds_grid_set(grd_tau_lines,1,7,7);
+ds_grid_set(grd_tau_lines,0,8,7);
+ds_grid_set(grd_tau_lines,1,8,8);
+//lower body
+ds_grid_set(grd_tau_lines,0,9,8);
+ds_grid_set(grd_tau_lines,1,9,11);
+ds_grid_set(grd_tau_lines,0,10,10);
+ds_grid_set(grd_tau_lines,1,10,11);
+ds_grid_set(grd_tau_lines,0,11,9);
+ds_grid_set(grd_tau_lines,1,11,10);
+ds_grid_set(grd_tau_lines,0,12,4);
+ds_grid_set(grd_tau_lines,1,12,9);
+//tail
+ds_grid_set(grd_tau_lines,0,13,7);
+ds_grid_set(grd_tau_lines,1,13,12);
+//front legs
+ds_grid_set(grd_tau_lines,0,14,9);
+ds_grid_set(grd_tau_lines,1,14,13);
+ds_grid_set(grd_tau_lines,0,15,13);
+ds_grid_set(grd_tau_lines,1,15,14);
+ds_grid_set(grd_tau_lines,0,16,10);
+ds_grid_set(grd_tau_lines,1,16,15);
+ds_grid_set(grd_tau_lines,0,17,15);
+ds_grid_set(grd_tau_lines,1,17,16);
+//rear legs
+ds_grid_set(grd_tau_lines,0,18,11);
+ds_grid_set(grd_tau_lines,1,18,17);
+ds_grid_set(grd_tau_lines,0,19,17);
+ds_grid_set(grd_tau_lines,1,19,18);
+ds_grid_set(grd_tau_lines,0,20,8);
+ds_grid_set(grd_tau_lines,1,20,19);
+ds_grid_set(grd_tau_lines,0,21,19);
+ds_grid_set(grd_tau_lines,1,21,20);
+
+grd_aqu_s2=ds_grid_create(2,AQUILA_NO_STARS);
+//left wing
+ds_grid_set(grd_aqu_s2,0,0,2);
+ds_grid_set(grd_aqu_s2,1,0,3);
+ds_grid_set(grd_aqu_s2,0,1,6);
+ds_grid_set(grd_aqu_s2,1,1,3);
+ds_grid_set(grd_aqu_s2,0,2,6);
+ds_grid_set(grd_aqu_s2,1,2,7);
+ds_grid_set(grd_aqu_s2,0,3,10);
+ds_grid_set(grd_aqu_s2,1,3,5);
+//tail
+ds_grid_set(grd_aqu_s2,0,4,4);
+ds_grid_set(grd_aqu_s2,1,4,11);
+ds_grid_set(grd_aqu_s2,0,5,0);
+ds_grid_set(grd_aqu_s2,1,5,12);
+ds_grid_set(grd_aqu_s2,0,6,5);
+ds_grid_set(grd_aqu_s2,1,6,17);
+ds_grid_set(grd_aqu_s2,0,7,6);
+ds_grid_set(grd_aqu_s2,1,7,14);
+
+//right wing
+ds_grid_set(grd_aqu_s2,0,8,10);
+ds_grid_set(grd_aqu_s2,1,8,12);
+ds_grid_set(grd_aqu_s2,0,9,14);
+ds_grid_set(grd_aqu_s2,1,9,14);
+ds_grid_set(grd_aqu_s2,0,10,13);//15);
+ds_grid_set(grd_aqu_s2,1,10,18);//17
+ds_grid_set(grd_aqu_s2,0,11,12);
+ds_grid_set(grd_aqu_s2,1,11,8);
+//beak
+ds_grid_set(grd_aqu_s2,0,12,13);
+ds_grid_set(grd_aqu_s2,1,12,5);
+ds_grid_set(grd_aqu_s2,0,13,16);
+ds_grid_set(grd_aqu_s2,1,13,6);
+
 grd_aqu_lines=ds_grid_create(2,AQUILA_NO_LINES);
+//left wing
 ds_grid_set(grd_aqu_lines,0,0,3);
 ds_grid_set(grd_aqu_lines,1,0,1);
 ds_grid_set(grd_aqu_lines,0,1,0);
 ds_grid_set(grd_aqu_lines,1,1,1);
 ds_grid_set(grd_aqu_lines,0,2,0);
 ds_grid_set(grd_aqu_lines,1,2,2);
-
+//tail
 ds_grid_set(grd_aqu_lines,0,3,2);
 ds_grid_set(grd_aqu_lines,1,3,4);
 ds_grid_set(grd_aqu_lines,0,4,4);
@@ -104,6 +306,22 @@ ds_grid_set(grd_aqu_lines,0,5,5);
 ds_grid_set(grd_aqu_lines,1,5,6);
 ds_grid_set(grd_aqu_lines,0,6,6);
 ds_grid_set(grd_aqu_lines,1,6,7);
+//right wing
+ds_grid_set(grd_aqu_lines,0,7,7);
+ds_grid_set(grd_aqu_lines,1,7,8);
+ds_grid_set(grd_aqu_lines,0,8,8);
+ds_grid_set(grd_aqu_lines,1,8,10);
+ds_grid_set(grd_aqu_lines,0,9,10);
+ds_grid_set(grd_aqu_lines,1,9,9);
+ds_grid_set(grd_aqu_lines,0,10,9);
+ds_grid_set(grd_aqu_lines,1,10,11);
+//head
+ds_grid_set(grd_aqu_lines,0,11,11);
+ds_grid_set(grd_aqu_lines,1,11,13);
+ds_grid_set(grd_aqu_lines,0,12,13);
+ds_grid_set(grd_aqu_lines,1,12,12);
+ds_grid_set(grd_aqu_lines,0,13,12);
+ds_grid_set(grd_aqu_lines,1,13,3);
 
 //shape1, state 1
 grd_shape1=ds_grid_create(2,ORION_NO_STARS);
@@ -361,13 +579,68 @@ base = y + height;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>///Animate
+            <string>if(keyboard_check_pressed(ord('S'))){
+  switchnext=true;
+  /*if ((curr_state==state.ORION_STATE1 ||curr_state==state.ORION_STATE1to2 
+      || curr_state==state.ORION_STATE2to1||curr_state==state.ORION_STATE2
+      ||curr_state==state.ORION_STATE2toATTACK ||curr_state==state.ORION_STATE_ATTACK)){
+        
+       curr_state=state.AQUILA_STATE1;
+     } else if (curr_state==state.AQUILA_STATE1||curr_state==state.AQUILA_STATE1to2
+      || curr_state==state.AQUILA_STATE2 || curr_state==state.AQUILA_STATE2to1
+      || curr_state==state.AQUILA_STATE_DIVE){
+        curr_state=state.TAURUS_STATE1;
+     } else if (curr_state==state.TAURUS_STATE1||curr_state==state.TAURUS_STATE2
+      ||curr_state==state.TAURUS_STATE1to2||curr_state==state.TAURUS_STATE2to1
+      || curr_state==state.TAURUS_CHARGE){
+        curr_state=state.ORION_STATE1;
+      }*/
+}//keyboard check
+
+///Animate
 if (moving &amp;&amp; curr_state==state.ORION_STATE1) {
+//show_message("in if orion state 1");
+  if(switchnext){
+    curr_state=state.ORION_TO_AQUILA;
+  } else {
     curr_state = state.ORION_STATE1to2;
+    prev_state=state.ORION_STATE1;
+  }
+  switchnext=false;
+}
+if (curr_state==state.ORION_STATE1 &amp;&amp; switchnext) {
+show_message("in state1 and switchnext");
+    curr_state=state.ORION_TO_AQUILA;
+    switchnext=false;
 }
 
 if (moving &amp;&amp; curr_state==state.ORION_STATE2) {
-    curr_state = state.ORION_STATE2to1;
+  if(switchnext){
+     curr_state=state.ORION_TO_AQUILA;
+  } else {
+    curr_state = state.ORION_STATE2to1;  
+    prev_state=state.ORION_STATE2;
+  }
+  switchnext=false;
+}
+if (moving &amp;&amp; curr_state==state.ORION_STATE_ATTACK) {
+  if(switchnext){
+     curr_state=state.ORION_TO_AQUILA;
+     prev_state=state.ORION_STATE1;
+  }
+  switchnext=false;
+}
+
+if(curr_state==state.ORION_TO_AQUILA){
+    if (currFrame==animation_frames) {
+      if (moving) {
+          curr_state=state.ORION_TO_AQUILA;
+      } else {
+          curr_state=state.ORION_STATE1;
+      }
+  } else {
+    currFrame++;
+  }
 }
 
 //show_message("current state is " + string(curr_state)+", currFrame is " +string(currFrame));
@@ -400,17 +673,70 @@ if(curr_state==state.ORION_STATE2toATTACK){
     currFrame++;
 }
 
-/*if (currFrame&lt;animation_frames &amp;&amp; currFrame &gt;0){
-  if (curr_state==state.ORION_STATE1to2){
+//AQUILA
+if (moving &amp;&amp; curr_state==state.AQUILA_STATE1) {
+    curr_state = state.AQUILA_STATE1to2;
+}
+
+if (moving &amp;&amp; curr_state==state.AQUILA_STATE2) {
+    curr_state = state.AQUILA_STATE2to1;
+}
+
+//show_message("current state is " + string(curr_state)+", currFrame is " +string(currFrame));
+if(curr_state==state.AQUILA_STATE1to2){
+  if (currFrame==animation_frames) {
+    if (moving) {
+        curr_state=state.AQUILA_STATE2to1;
+    } else {
+        curr_state=state.AQUILA_STATE2;
+    }
+  } else {
     currFrame++;
-  } else if (curr_state==state.ORION_STATE2to1){
+  }
+}
+if(curr_state==state.AQUILA_STATE2to1){
+  if (currFrame==1) {
+    if (moving) {
+        curr_state=state.AQUILA_STATE1to2;
+    } else {
+        curr_state=state.AQUILA_STATE1;
+    }
+  } else {
     currFrame--;
   }
-} else if (currFrame==animation_frames){
-  curr_state=state.ORION_STATE2to1;
-} else if (currFrame==0){
-  curr_state=state.ORION_STATE1to2;
-}*/
+}
+//TAURUS
+if (moving &amp;&amp; curr_state==state.TAURUS_STATE1) {
+    curr_state = state.TAURUS_STATE1to2;
+}
+
+if (moving &amp;&amp; curr_state==state.TAURUS_STATE2) {
+    curr_state = state.TAURUS_STATE2to1;
+}
+
+//show_message("current state is " + string(curr_state)+", currFrame is " +string(currFrame));
+if(curr_state==state.TAURUS_STATE1to2){
+  if (currFrame==animation_frames) {
+    if (moving) {
+        curr_state=state.TAURUS_STATE2to1;
+    } else {
+        curr_state=state.TAURUS_STATE2;
+    }
+  } else {
+    currFrame++;
+  }
+}
+if(curr_state==state.TAURUS_STATE2to1){
+  if (currFrame==1) {
+    if (moving) {
+        curr_state=state.TAURUS_STATE1to2;
+    } else {
+        curr_state=state.TAURUS_STATE1;
+    }
+  } else {
+    currFrame--;
+  }
+}
 </string>
           </argument>
         </arguments>
@@ -494,7 +820,8 @@ base = y + height;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>new_grd=ds_grid_create(2,ORION_NO_STARS);
+            <string>switchnext=false;
+new_grd=ds_grid_create(2,ORION_NO_STARS);
 curr_grd=new_grd;
 curr_lines=grd_shape1_lines;
 no_lines=ORION_NO_LINES;
@@ -504,6 +831,21 @@ if(curr_state==state.ORION_STATE1)
   curr_grd=grd_shape1;
 if(curr_state==state.ORION_STATE2)
   curr_grd=grd_shape1_state2;
+if(curr_state==state.AQUILA_STATE1){
+  curr_grd=grd_aqu_s1;
+}
+if(curr_state==state.TAURUS_STATE1){
+  curr_grd=grd_tau_s1;
+}
+if(curr_state==state.AQUILA_STATE2){
+  curr_grd=grd_aqu_s2;
+}
+if(curr_state==state.TAURUS_STATE2){
+  curr_grd=grd_tau_s2;
+}
+if(curr_state==state.ORION_STATE_ATTACK){
+  curr_grd=grd_shape1_state3;
+}
 if(curr_state==state.ORION_STATE1to2){
   if(currFrame&lt;=animation_frames){
     for(i=0;i&lt;ORION_NO_STARS;i++){
@@ -558,13 +900,150 @@ if(curr_state==state.ORION_STATE2toATTACK){
 if(curr_state==state.ORION_STATE_ATTACK){
   curr_grd=grd_shape1_state3;
 }
-
+//show_message("curr_state:" + string(curr_state) +"1to2:"+string(state.AQUILA_STATE1to2));
 //then Aquila code
-if(curr_state==state.AQUILA_STATE1){
+if(curr_state==state.AQUILA_STATE1to2){
+  //show_message("in if statement");
   curr_grd=grd_aqu_s1;
   curr_lines=grd_aqu_lines;
   no_lines=AQUILA_NO_LINES;
   no_stars=AQUILA_NO_STARS;
+  
+  if(currFrame&lt;=animation_frames){
+    for(i=0;i&lt;AQUILA_NO_STARS;i++){
+      xOrig=ds_grid_get(grd_aqu_s1,0,i);
+      yOrig=ds_grid_get(grd_aqu_s1,1,i);
+      xNew=ds_grid_get(grd_aqu_s2,0,i);
+      yNew=ds_grid_get(grd_aqu_s2,1,i);
+      xDiff=(xNew-xOrig)*(currFrame/animation_frames);
+      yDiff=(yNew-yOrig)*(currFrame/animation_frames);
+      ds_grid_set(new_grd,0,i,xOrig+xDiff);
+      ds_grid_set(new_grd,1,i,yOrig+yDiff);
+    }
+    curr_grd=new_grd;
+  } else {
+    //curr_state=state.ORION_STATE1;
+  }
+}
+if(curr_state==state.AQUILA_STATE2to1){
+ // show_message("in if statement");
+  curr_grd=grd_aqu_s2;
+  curr_lines=grd_aqu_lines;
+  no_lines=AQUILA_NO_LINES;
+  no_stars=AQUILA_NO_STARS;
+  
+  if(currFrame&lt;=animation_frames){
+    for(i=0;i&lt;AQUILA_NO_STARS;i++){
+      xOrig=ds_grid_get(grd_aqu_s2,0,i);
+      yOrig=ds_grid_get(grd_aqu_s2,1,i);
+      xNew=ds_grid_get(grd_aqu_s1,0,i);
+      yNew=ds_grid_get(grd_aqu_s1,1,i);
+      xDiff=(xNew-xOrig)*((animation_frames-currFrame)/animation_frames);
+      yDiff=(yNew-yOrig)*((animation_frames-currFrame)/animation_frames);
+      ds_grid_set(new_grd,0,i,xOrig+xDiff);
+      ds_grid_set(new_grd,1,i,yOrig+yDiff);
+    }
+    curr_grd=new_grd;
+  } else {
+    //curr_state=state.ORION_STATE1;
+  }
+}
+
+if(curr_state==state.TAURUS_STATE1){
+  curr_grd=grd_tau_s2;
+  curr_lines=grd_tau_lines;
+  no_lines=TAURUS_NO_LINES;
+  no_stars=TAURUS_NO_STARS;
+}
+if(curr_state==state.TAURUS_STATE1to2){
+  //show_message("in if statement");
+  new_grd=ds_grid_create(2,TAURUS_NO_STARS);
+  curr_grd=grd_tau_s1;
+  curr_lines=grd_tau_lines;
+  no_lines=TAURUS_NO_LINES;
+  no_stars=TAURUS_NO_STARS;
+  
+  if(currFrame&lt;=animation_frames){
+    for(i=0;i&lt;TAURUS_NO_STARS;i++){
+      xOrig=ds_grid_get(grd_tau_s1,0,i);
+      yOrig=ds_grid_get(grd_tau_s1,1,i);
+      xNew=ds_grid_get(grd_tau_s2,0,i);
+      yNew=ds_grid_get(grd_tau_s2,1,i);
+      xDiff=(xNew-xOrig)*(currFrame/animation_frames);
+      yDiff=(yNew-yOrig)*(currFrame/animation_frames);
+      ds_grid_set(new_grd,0,i,xOrig+xDiff);
+      ds_grid_set(new_grd,1,i,yOrig+yDiff);
+    }
+    curr_grd=new_grd;
+  } else {
+    //curr_state=state.ORION_STATE1;
+  }
+}
+
+if(curr_state==state.TAURUS_STATE2to1){
+ // show_message("in if statement");
+  new_grd=ds_grid_create(2,TAURUS_NO_STARS);
+  curr_grd=grd_tau_s2;
+  curr_lines=grd_tau_lines;
+  no_lines=TAURUS_NO_LINES;
+  no_stars=TAURUS_NO_STARS;
+  
+  if(currFrame&lt;=animation_frames){
+    for(i=0;i&lt;TAURUS_NO_STARS;i++){
+      xOrig=ds_grid_get(grd_tau_s2,0,i);
+      yOrig=ds_grid_get(grd_tau_s2,1,i);
+      xNew=ds_grid_get(grd_tau_s1,0,i);
+      yNew=ds_grid_get(grd_tau_s1,1,i);
+      xDiff=(xNew-xOrig)*((animation_frames-currFrame)/animation_frames);
+      yDiff=(yNew-yOrig)*((animation_frames-currFrame)/animation_frames);
+      ds_grid_set(new_grd,0,i,xOrig+xDiff);
+      ds_grid_set(new_grd,1,i,yOrig+yDiff);
+    }
+    curr_grd=new_grd;
+  } else {
+    //curr_state=state.ORION_STATE1;
+  }
+}
+if(curr_state==state.ORION_TO_AQUILA){
+  show_message("in Orion to Aquila");
+  if (prev_state==state.ORION_STATE1)
+    curr_grd=grd_shape1;
+  else if (prev_state==state.ORION_STATE1)
+    curr_grd=grd_shape1_state2;
+  else if (prev_state==state.ORION_STATE_ATTACK)
+    curr_grd=grd_shape1_state3;
+  //curr_grd=grd_shape1_state1;
+  curr_lines=grd_aqu_lines;
+  no_lines=AQUILA_NO_LINES;
+  no_stars=AQUILA_NO_STARS;
+  
+  X_MID=200;
+  Y_MID=200;
+  if(currFrame&lt;=(animation_frames/2)){
+    for(i=0;i&lt;AQUILA_NO_STARS;i++){
+    if(animation_frames==0){
+      xOrig=ds_grid_get(curr_grd,0,i);
+      yOrig=ds_grid_get(curr_grd,1,i);
+    } else {
+      xOrig=ds_grid_get(new_grd,0,i);
+      yOrig=ds_grid_get(new_grd,1,i);    
+    }
+      if(xOrig&lt;X_MID-40)
+        xOrig+=40;
+      if(xOrig&gt;X_MID+40)
+        xOrig-=40;
+      if(yOrig&lt;Y_MID-40)
+        yOrig+=40;
+      if(yOrig&gt;Y_MID+40)
+        yOrig-=40;
+    }
+    show_message("xOrig:"+string(xOrig)+"yOrig:"+string(yOrig));
+    curr_grd=new_grd;
+    ds_grid_set(new_grd,0,i,xOrig);
+    ds_grid_set(new_grd,1,i,yOrig);
+  } else {
+    //curr_state=state.ORION_STATE1;
+  }
 }
 
 if (dir == -1) {

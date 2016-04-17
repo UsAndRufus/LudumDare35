@@ -12,6 +12,7 @@
     <sprite>sprites\spr_sword</sprite>
     <sprite>sprites\spr_wall</sprite>
     <sprite>sprites\sprite5</sprite>
+    <sprite>sprites\spr_player_blank</sprite>
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>
@@ -33,12 +34,14 @@
     <object>objects\obj_star</object>
   </objects>
   <rooms name="rooms">
-    <room>rooms\room0</room>
     <room>rooms\rm_platform_test</room>
+    <room>rooms\room0</room>
     <room>rooms\rm_tst</room>
   </rooms>
   <constants number="1">
     <constant name="animation_frames">20</constant>
+    <constant name="GRAV">1</constant>
+    <constant name="animation_frames">10</constant>
   </constants>
   <help>
     <rtf>help.rtf</rtf>

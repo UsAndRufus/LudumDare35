@@ -90,16 +90,20 @@ y += vsp;
 //Player Collision
 if (place_meeting(x,y,obj_player)) {
 
-    show_message("meeting");
-
     trace((obj_player.y + obj_player.height), (y));//+(sprite_height / 2)));
     if ((obj_player.y + obj_player.height) &lt; (y)){// +(sprite_height / 2))) {
         instance_destroy();
     } else {
-        dir *= -1;
+    
+        if (dir != obj_player.dir) {
+            obj_player.hsp = dir * obj_player.knockback;
+            dir *= -1; 
+        } else {
+            obj_player.hsp = dir * -1 * obj_player.knockback;
+        }
     
         obj_player.lives -= 1;
-        obj_player.hsp = dir * -1 * obj_player.knockback;
+        
     }
     
     obj_player.vsp = -obj_player.jumpspeed;

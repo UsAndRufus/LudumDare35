@@ -25,8 +25,10 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>
-NO_STARS=13;
+            <string>ORION_NO_STARS=19;
+ORION_NO_LINES=21;
+AQUILA_NO_STARS=14;
+AQUILA_NO_LINES=7;//14
 WIDTH=200;
 LENGTH=200;
 X_STEP=20;
@@ -38,118 +40,267 @@ currFrame=0;
 enum state{
   ORION_STATE1,
   ORION_STATE1to2,
-  ORION_STATE2
+  ORION_STATE2to1,
+  ORION_STATE2,
+  ORION_STATE2toATTACK,
+  ORION_STATE_ATTACK,
+  AQUILA_STATE1,
+  AQUILA_STATE1to2,
+  AQUILA_STATE2,
+  AQUILA_STATE_DIVE
 };
-curr_state=state.ORION_STATE2;
+//curr_state=state.AQUILA_STATE1;
+curr_state=state.ORION_STATE1to2;
+grd_aqu_s1=ds_grid_create(2,AQUILA_NO_STARS);
+//left wing
+ds_grid_set(grd_aqu_s1,0,0,3);
+ds_grid_set(grd_aqu_s1,1,0,2);
+ds_grid_set(grd_aqu_s1,0,1,7);
+ds_grid_set(grd_aqu_s1,1,1,2);
+ds_grid_set(grd_aqu_s1,0,2,6);
+ds_grid_set(grd_aqu_s1,1,2,7);
+ds_grid_set(grd_aqu_s1,0,3,10);
+ds_grid_set(grd_aqu_s1,1,3,5);
+//tail
+ds_grid_set(grd_aqu_s1,0,4,4);
+ds_grid_set(grd_aqu_s1,1,4,11);
+ds_grid_set(grd_aqu_s1,0,5,0);
+ds_grid_set(grd_aqu_s1,1,5,12);
+ds_grid_set(grd_aqu_s1,0,6,5);
+ds_grid_set(grd_aqu_s1,1,6,17);
+ds_grid_set(grd_aqu_s1,0,7,6);
+ds_grid_set(grd_aqu_s1,1,7,14);
+
+//right wing
+ds_grid_set(grd_aqu_s1,0,8,10);
+ds_grid_set(grd_aqu_s1,1,8,12);
+ds_grid_set(grd_aqu_s1,0,9,16);
+ds_grid_set(grd_aqu_s1,1,9,13);
+ds_grid_set(grd_aqu_s1,0,10,15);//15);
+ds_grid_set(grd_aqu_s1,1,10,17);//17
+ds_grid_set(grd_aqu_s1,0,11,12);
+ds_grid_set(grd_aqu_s1,1,11,8);
+//beak
+ds_grid_set(grd_aqu_s1,0,12,13);
+ds_grid_set(grd_aqu_s1,1,12,5);
+ds_grid_set(grd_aqu_s1,0,13,16);
+ds_grid_set(grd_aqu_s1,1,13,6);
+
+grd_aqu_lines=ds_grid_create(2,AQUILA_NO_LINES);
+ds_grid_set(grd_aqu_lines,0,0,3);
+ds_grid_set(grd_aqu_lines,1,0,1);
+ds_grid_set(grd_aqu_lines,0,1,0);
+ds_grid_set(grd_aqu_lines,1,1,1);
+ds_grid_set(grd_aqu_lines,0,2,0);
+ds_grid_set(grd_aqu_lines,1,2,2);
+
+ds_grid_set(grd_aqu_lines,0,3,2);
+ds_grid_set(grd_aqu_lines,1,3,4);
+ds_grid_set(grd_aqu_lines,0,4,4);
+ds_grid_set(grd_aqu_lines,1,4,5);
+ds_grid_set(grd_aqu_lines,0,5,5);
+ds_grid_set(grd_aqu_lines,1,5,6);
+ds_grid_set(grd_aqu_lines,0,6,6);
+ds_grid_set(grd_aqu_lines,1,6,7);
+
 //shape1, state 1
-grd_shape1=ds_grid_create(2,NO_STARS);
+grd_shape1=ds_grid_create(2,ORION_NO_STARS);
 //first col is x co-ord, second is y
-ds_grid_set(grd_shape1,0,0,4);
-ds_grid_set(grd_shape1,1,0,1);
-
-ds_grid_set(grd_shape1,0,1,1);
-ds_grid_set(grd_shape1,1,1,5);
-ds_grid_set(grd_shape1,0,2,3);
-ds_grid_set(grd_shape1,1,2,12);
-
+//head
+ds_grid_set(grd_shape1,0,0,7);
+ds_grid_set(grd_shape1,1,0,0);
+ds_grid_set(grd_shape1,0,1,5);
+ds_grid_set(grd_shape1,1,1,1);
+ds_grid_set(grd_shape1,0,2,8);
+ds_grid_set(grd_shape1,1,2,2);
 ds_grid_set(grd_shape1,0,3,6);
 ds_grid_set(grd_shape1,1,3,3);
-ds_grid_set(grd_shape1,0,4,10);
-ds_grid_set(grd_shape1,1,4,5);
-ds_grid_set(grd_shape1,0,5,14);
+//shoulders
+ds_grid_set(grd_shape1,0,4,4);
+ds_grid_set(grd_shape1,1,4,4);
+ds_grid_set(grd_shape1,0,5,10);
 ds_grid_set(grd_shape1,1,5,4);
-
-ds_grid_set(grd_shape1,0,6,12);
-ds_grid_set(grd_shape1,1,6,14);
-ds_grid_set(grd_shape1,0,7,11);
-ds_grid_set(grd_shape1,1,7,15);
-ds_grid_set(grd_shape1,0,8,10);
-ds_grid_set(grd_shape1,1,8,16);
-
-ds_grid_set(grd_shape1,0,9,15);
-ds_grid_set(grd_shape1,1,9,17);
-ds_grid_set(grd_shape1,0,10,18);
-ds_grid_set(grd_shape1,1,10,20);
-
-ds_grid_set(grd_shape1,0,11,10);
-ds_grid_set(grd_shape1,1,11,20);
-ds_grid_set(grd_shape1,0,12,10);
-ds_grid_set(grd_shape1,1,12,24);
+//belt
+ds_grid_set(grd_shape1,0,6,6);
+ds_grid_set(grd_shape1,1,6,12);
+ds_grid_set(grd_shape1,0,7,7);
+ds_grid_set(grd_shape1,1,7,11);
+ds_grid_set(grd_shape1,0,8,8);
+ds_grid_set(grd_shape1,1,8,10);
+//legs
+ds_grid_set(grd_shape1,0,9,4);
+ds_grid_set(grd_shape1,1,9,19);
+ds_grid_set(grd_shape1,0,10,11);
+ds_grid_set(grd_shape1,1,10,18);
+//left arm
+ds_grid_set(grd_shape1,0,11,2);
+ds_grid_set(grd_shape1,1,11,9);
+ds_grid_set(grd_shape1,0,12,3);
+ds_grid_set(grd_shape1,1,12,12);
+//right arm and sword
+ds_grid_set(grd_shape1,0,13,11);
+ds_grid_set(grd_shape1,1,13,9);
+ds_grid_set(grd_shape1,0,14,13);
+ds_grid_set(grd_shape1,1,14,12);
+ds_grid_set(grd_shape1,0,15,12);
+ds_grid_set(grd_shape1,1,15,11);
+ds_grid_set(grd_shape1,0,16,17);
+ds_grid_set(grd_shape1,1,16,15);
+//sword handle
+ds_grid_set(grd_shape1,0,17,14);
+ds_grid_set(grd_shape1,1,17,11);
+ds_grid_set(grd_shape1,0,18,12);
+ds_grid_set(grd_shape1,1,18,13);
 
 //shape1, state 2
-grd_shape1_state2=ds_grid_create(2,NO_STARS);
-//first col is x co-ord, second is y
-ds_grid_set(grd_shape1_state2,0,0,20);
-ds_grid_set(grd_shape1_state2,1,0,10);
-
-ds_grid_set(grd_shape1_state2,0,1,14);
-ds_grid_set(grd_shape1_state2,1,1,10);
-ds_grid_set(grd_shape1_state2,0,2,6);
-ds_grid_set(grd_shape1_state2,1,2,12);
-
+grd_shape1_state2=ds_grid_create(2,ORION_NO_STARS);
+//head
+ds_grid_set(grd_shape1_state2,0,0,7);
+ds_grid_set(grd_shape1_state2,1,0,1);
+ds_grid_set(grd_shape1_state2,0,1,5);
+ds_grid_set(grd_shape1_state2,1,1,2);
+ds_grid_set(grd_shape1_state2,0,2,8);
+ds_grid_set(grd_shape1_state2,1,2,3);
 ds_grid_set(grd_shape1_state2,0,3,6);
-ds_grid_set(grd_shape1_state2,1,3,3);
-ds_grid_set(grd_shape1_state2,0,4,10);
-ds_grid_set(grd_shape1_state2,1,4,5);
-ds_grid_set(grd_shape1_state2,0,5,14);
+ds_grid_set(grd_shape1_state2,1,3,4);
+//shoulders
+ds_grid_set(grd_shape1_state2,0,4,4);
+ds_grid_set(grd_shape1_state2,1,4,4);
+ds_grid_set(grd_shape1_state2,0,5,10);
 ds_grid_set(grd_shape1_state2,1,5,4);
+//belt
+ds_grid_set(grd_shape1_state2,0,6,5);
+ds_grid_set(grd_shape1_state2,1,6,12);
+ds_grid_set(grd_shape1_state2,0,7,6);
+ds_grid_set(grd_shape1_state2,1,7,11);
+ds_grid_set(grd_shape1_state2,0,8,7);
+ds_grid_set(grd_shape1_state2,1,8,10);
+//legs
+ds_grid_set(grd_shape1_state2,0,9,5);
+ds_grid_set(grd_shape1_state2,1,9,19);
+ds_grid_set(grd_shape1_state2,0,10,13);
+ds_grid_set(grd_shape1_state2,1,10,18);
+//left arm
+ds_grid_set(grd_shape1_state2,0,11,2);
+ds_grid_set(grd_shape1_state2,1,11,7);
+ds_grid_set(grd_shape1_state2,0,12,3);
+ds_grid_set(grd_shape1_state2,1,12,11);
+//right arm+sword
+ds_grid_set(grd_shape1_state2,0,13,11);
+ds_grid_set(grd_shape1_state2,1,13,9);
+ds_grid_set(grd_shape1_state2,0,14,13);
+ds_grid_set(grd_shape1_state2,1,14,12);
+ds_grid_set(grd_shape1_state2,0,15,12);
+ds_grid_set(grd_shape1_state2,1,15,11);
+ds_grid_set(grd_shape1_state2,0,16,17);
+ds_grid_set(grd_shape1_state2,1,16,15);
+//sword handle
+ds_grid_set(grd_shape1_state2,0,17,14);
+ds_grid_set(grd_shape1_state2,1,17,11);
+ds_grid_set(grd_shape1_state2,0,18,12);
+ds_grid_set(grd_shape1_state2,1,18,13);
 
-ds_grid_set(grd_shape1_state2,0,6,12);
-ds_grid_set(grd_shape1_state2,1,6,14);
-ds_grid_set(grd_shape1_state2,0,7,11);
-ds_grid_set(grd_shape1_state2,1,7,15);
-ds_grid_set(grd_shape1_state2,0,8,10);
-ds_grid_set(grd_shape1_state2,1,8,16);
+grd_shape1_state3=ds_grid_create(2,ORION_NO_STARS);
+//head
+ds_grid_set(grd_shape1_state3,0,0,7);
+ds_grid_set(grd_shape1_state3,1,0,1);
+ds_grid_set(grd_shape1_state3,0,1,5);
+ds_grid_set(grd_shape1_state3,1,1,2);
+ds_grid_set(grd_shape1_state3,0,2,8);
+ds_grid_set(grd_shape1_state3,1,2,3);
+ds_grid_set(grd_shape1_state3,0,3,6);
+ds_grid_set(grd_shape1_state3,1,3,4);
+//shoulders
+ds_grid_set(grd_shape1_state3,0,4,4);
+ds_grid_set(grd_shape1_state3,1,4,4);
+ds_grid_set(grd_shape1_state3,0,5,10);
+ds_grid_set(grd_shape1_state3,1,5,4);
+//belt
+ds_grid_set(grd_shape1_state3,0,6,5);
+ds_grid_set(grd_shape1_state3,1,6,12);
+ds_grid_set(grd_shape1_state3,0,7,6);
+ds_grid_set(grd_shape1_state3,1,7,11);
+ds_grid_set(grd_shape1_state3,0,8,7);
+ds_grid_set(grd_shape1_state3,1,8,10);
+//legs
+ds_grid_set(grd_shape1_state3,0,9,5);
+ds_grid_set(grd_shape1_state3,1,9,19);
+ds_grid_set(grd_shape1_state3,0,10,13);
+ds_grid_set(grd_shape1_state3,1,10,18);
+//left arm
+ds_grid_set(grd_shape1_state3,0,11,2);
+ds_grid_set(grd_shape1_state3,1,11,7);
+ds_grid_set(grd_shape1_state3,0,12,3);
+ds_grid_set(grd_shape1_state3,1,12,11);
+//right arm+sword
+ds_grid_set(grd_shape1_state3,0,13,11);
+ds_grid_set(grd_shape1_state3,1,13,9);
 
-ds_grid_set(grd_shape1_state2,0,9,15);
-ds_grid_set(grd_shape1_state2,1,9,17);
-ds_grid_set(grd_shape1_state2,0,10,18);
-ds_grid_set(grd_shape1_state2,1,10,20);
+ds_grid_set(grd_shape1_state3,0,14,14);
+ds_grid_set(grd_shape1_state3,1,14,10);
+ds_grid_set(grd_shape1_state3,0,15,12);
+ds_grid_set(grd_shape1_state3,1,15,10);
+ds_grid_set(grd_shape1_state3,0,16,19);
+ds_grid_set(grd_shape1_state3,1,16,10);
+//sword handle
+ds_grid_set(grd_shape1_state3,0,17,14);
+ds_grid_set(grd_shape1_state3,1,17,9);
+ds_grid_set(grd_shape1_state3,0,18,14);
+ds_grid_set(grd_shape1_state3,1,18,11);
 
-ds_grid_set(grd_shape1_state2,0,11,10);
-ds_grid_set(grd_shape1_state2,1,11,20);
-ds_grid_set(grd_shape1_state2,0,12,10);
-ds_grid_set(grd_shape1_state2,1,12,24);
 
-
-grd_shape1_lines=ds_grid_create(2,14);
+grd_shape1_lines=ds_grid_create(2,ORION_NO_LINES);
 //each col represents a row in the grd_shape grid
+//head
 ds_grid_set(grd_shape1_lines,0,0,0);//so we want the first 
 ds_grid_set(grd_shape1_lines,1,0,1);//and second stars to be linked by a line
-ds_grid_set(grd_shape1_lines,0,1,1);
+ds_grid_set(grd_shape1_lines,0,1,0);
 ds_grid_set(grd_shape1_lines,1,1,2);
-ds_grid_set(grd_shape1_lines,0,2,2);
+ds_grid_set(grd_shape1_lines,0,2,1);
 ds_grid_set(grd_shape1_lines,1,2,3);
-ds_grid_set(grd_shape1_lines,0,3,3);
-ds_grid_set(grd_shape1_lines,1,3,4);
-ds_grid_set(grd_shape1_lines,0,4,2);
-ds_grid_set(grd_shape1_lines,1,4,8);
-ds_grid_set(grd_shape1_lines,0,5,8);
-ds_grid_set(grd_shape1_lines,1,5,11);
-ds_grid_set(grd_shape1_lines,0,6,11);
-ds_grid_set(grd_shape1_lines,1,6,12);
-ds_grid_set(grd_shape1_lines,0,7,6);
-ds_grid_set(grd_shape1_lines,1,7,9);
-ds_grid_set(grd_shape1_lines,0,8,9);
-ds_grid_set(grd_shape1_lines,1,8,10);
+ds_grid_set(grd_shape1_lines,0,3,2);
+ds_grid_set(grd_shape1_lines,1,3,3);
+//upper body
+ds_grid_set(grd_shape1_lines,0,4,4);
+ds_grid_set(grd_shape1_lines,1,4,5);
+ds_grid_set(grd_shape1_lines,0,5,4);
+ds_grid_set(grd_shape1_lines,1,5,6);
+ds_grid_set(grd_shape1_lines,0,6,5);
+ds_grid_set(grd_shape1_lines,1,6,8);
+
+//belt
 ds_grid_set(grd_shape1_lines,0,9,6);
 ds_grid_set(grd_shape1_lines,1,9,7);
 ds_grid_set(grd_shape1_lines,0,10,7);
 ds_grid_set(grd_shape1_lines,1,10,8);
-ds_grid_set(grd_shape1_lines,0,11,4);
-ds_grid_set(grd_shape1_lines,1,11,5);
-ds_grid_set(grd_shape1_lines,0,12,4);
-ds_grid_set(grd_shape1_lines,1,12,6);
+//left arm
+ds_grid_set(grd_shape1_lines,0,8,4);
+ds_grid_set(grd_shape1_lines,1,8,11);
+ds_grid_set(grd_shape1_lines,0,11,11);
+ds_grid_set(grd_shape1_lines,1,11,12);
+//skirt thing
+ds_grid_set(grd_shape1_lines,0,12,6);
+ds_grid_set(grd_shape1_lines,1,12,9);
+ds_grid_set(grd_shape1_lines,0,13,8);
+ds_grid_set(grd_shape1_lines,1,13,10);
+ds_grid_set(grd_shape1_lines,0,14,9);
+ds_grid_set(grd_shape1_lines,1,14,10);
+//right arm+sword
+ds_grid_set(grd_shape1_lines,0,15,5);
+ds_grid_set(grd_shape1_lines,1,15,13);
+ds_grid_set(grd_shape1_lines,0,16,13);
+ds_grid_set(grd_shape1_lines,1,16,15);
+ds_grid_set(grd_shape1_lines,0,17,14);
+ds_grid_set(grd_shape1_lines,1,17,15);
+ds_grid_set(grd_shape1_lines,0,18,15);
+ds_grid_set(grd_shape1_lines,1,18,16);
+//sword handles
+ds_grid_set(grd_shape1_lines,0,19,14);
+ds_grid_set(grd_shape1_lines,1,19,17);
+ds_grid_set(grd_shape1_lines,0,20,14);
+ds_grid_set(grd_shape1_lines,1,20,18);
 
-/*
-//plot stars
-for (i=0;i&lt;NO_STARS;i++){
-  x=ds_grid_get(curr_grd,0,i) * X_STEP;
-  y=ds_grid_get(curr_grd,1,i) * Y_STEP;
-  instance_create(x,y,obj_star);
-}*/
 
-//draw_line_width(1,2000,1,2000,LINE_WIDTH*100);
 </string>
           </argument>
         </arguments>
@@ -172,8 +323,37 @@ for (i=0;i&lt;NO_STARS;i++){
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>curr_state=state.ORION_STATE1to2;
-currFrame++;
+            <string>//show_message("current state is " + string(curr_state)+", currFrame is " +string(currFrame));
+if(curr_state==state.ORION_STATE1to2){
+  if (currFrame==animation_frames)
+    curr_state=state.ORION_STATE2to1;
+  else
+    currFrame++;
+}
+if(curr_state==state.ORION_STATE2to1){
+  if (currFrame==0)
+    curr_state=state.ORION_STATE1to2;
+  else
+    currFrame--;
+}
+if(curr_state==state.ORION_STATE2toATTACK){
+  if (currFrame==animation_frames)
+    curr_state=state.ORION_STATE_ATTACK;
+  else
+    currFrame++;
+}
+
+/*if (currFrame&lt;animation_frames &amp;&amp; currFrame &gt;0){
+  if (curr_state==state.ORION_STATE1to2){
+    currFrame++;
+  } else if (curr_state==state.ORION_STATE2to1){
+    currFrame--;
+  }
+} else if (currFrame==animation_frames){
+  curr_state=state.ORION_STATE2to1;
+} else if (currFrame==0){
+  curr_state=state.ORION_STATE1to2;
+}*/
 </string>
           </argument>
         </arguments>
@@ -196,15 +376,19 @@ currFrame++;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>new_grd=ds_grid_create(2,NO_STARS);
-
+            <string>new_grd=ds_grid_create(2,ORION_NO_STARS);
+curr_grd=new_grd;
+curr_lines=grd_shape1_lines;
+no_lines=ORION_NO_LINES;
+no_stars=ORION_NO_STARS;
+//show_message("current state is " + string(curr_state));
 if(curr_state==state.ORION_STATE1)
   curr_grd=grd_shape1;
 if(curr_state==state.ORION_STATE2)
   curr_grd=grd_shape1_state2;
-if(curr_state=state.ORION_STATE1to2){
+if(curr_state==state.ORION_STATE1to2){
   if(currFrame&lt;=animation_frames){
-    for(i=0;i&lt;NO_STARS;i++){
+    for(i=0;i&lt;ORION_NO_STARS;i++){
       xOrig=ds_grid_get(grd_shape1,0,i);
       yOrig=ds_grid_get(grd_shape1,1,i);
       xNew=ds_grid_get(grd_shape1_state2,0,i);
@@ -216,14 +400,59 @@ if(curr_state=state.ORION_STATE1to2){
     }
     curr_grd=new_grd;
   } else {
-    curr_state=state.ORION_STATE2;
+    //curr_state=state.ORION_STATE2;
   }
+}
+if(curr_state==state.ORION_STATE2to1){
+  if(currFrame&gt;0){
+    for(i=0;i&lt;ORION_NO_STARS;i++){
+      xOrig=ds_grid_get(grd_shape1_state2,0,i);
+      yOrig=ds_grid_get(grd_shape1_state2,1,i);
+      xNew=ds_grid_get(grd_shape1,0,i);
+      yNew=ds_grid_get(grd_shape1,1,i);
+      xDiff=(xNew-xOrig)*((animation_frames-currFrame)/animation_frames);
+      yDiff=(yNew-yOrig)*((animation_frames-currFrame)/animation_frames);
+      ds_grid_set(new_grd,0,i,xOrig+xDiff);
+      ds_grid_set(new_grd,1,i,yOrig+yDiff);
+    }
+    curr_grd=new_grd;
+  } else {
+    //curr_state=state.ORION_STATE1;
+  }
+}
+if(curr_state==state.ORION_STATE2toATTACK){
+  if(currFrame&lt;=animation_frames){
+    for(i=0;i&lt;ORION_NO_STARS;i++){
+      xOrig=ds_grid_get(grd_shape1,0,i);
+      yOrig=ds_grid_get(grd_shape1,1,i);
+      xNew=ds_grid_get(grd_shape1_state3,0,i);
+      yNew=ds_grid_get(grd_shape1_state3,1,i);
+      xDiff=(xNew-xOrig)*(currFrame/animation_frames);
+      yDiff=(yNew-yOrig)*(currFrame/animation_frames);
+      ds_grid_set(new_grd,0,i,xOrig+xDiff);
+      ds_grid_set(new_grd,1,i,yOrig+yDiff);
+    }
+    curr_grd=new_grd;
+  } else {
+    //curr_state=state.ORION_STATE1;
+  }
+}
+if(curr_state==state.ORION_STATE_ATTACK){
+  curr_grd=grd_shape1_state3;
+}
+
+//then Aquila code
+if(curr_state==state.AQUILA_STATE1){
+  curr_grd=grd_aqu_s1;
+  curr_lines=grd_aqu_lines;
+  no_lines=AQUILA_NO_LINES;
+  no_stars=AQUILA_NO_STARS;
 }
 
 //plot lines
-for (i=0;i&lt;14;i++){
-  point1=ds_grid_get(grd_shape1_lines,0,i);
-  point2=ds_grid_get(grd_shape1_lines,1,i);
+for (i=0;i&lt;no_lines;i++){
+  point1=ds_grid_get(curr_lines,0,i);
+  point2=ds_grid_get(curr_lines,1,i);
   x1=ds_grid_get(curr_grd,0,point1) * X_STEP;
   y1=ds_grid_get(curr_grd,1,point1) * Y_STEP;
   x2=ds_grid_get(curr_grd,0,point2) * X_STEP;
@@ -233,7 +462,7 @@ for (i=0;i&lt;14;i++){
 }
 
 //plot stars
-for (i=0;i&lt;NO_STARS;i++){
+for (i=0;i&lt;no_stars;i++){
   draw_set_color(c_white);
   deltax=ds_grid_get(curr_grd,0,i) * X_STEP;
   deltay=ds_grid_get(curr_grd,1,i) * Y_STEP;

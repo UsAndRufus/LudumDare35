@@ -11,6 +11,7 @@
     <sprite>sprites\spr_platform_man</sprite>
     <sprite>sprites\spr_sword</sprite>
     <sprite>sprites\spr_wall</sprite>
+    <sprite>sprites\sprite5</sprite>
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>
@@ -37,7 +38,7 @@
     <room>rooms\rm_tst</room>
   </rooms>
   <constants number="1">
-    <constant name="animation_frames">10</constant>
+    <constant name="animation_frames">20</constant>
   </constants>
   <help>
     <rtf>help.rtf</rtf>

@@ -643,7 +643,9 @@ sword.owner = id;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if(keyboard_check_pressed(ord('S'))){
+            <string>///Animate
+
+if(keyboard_check_pressed(ord('S'))){
   switchnext=true;
   /*if ((curr_state==state.ORION_STATE1 ||curr_state==state.ORION_STATE1to2 
       || curr_state==state.ORION_STATE2to1||curr_state==state.ORION_STATE2
@@ -661,7 +663,6 @@ sword.owner = id;
       }*/
 }//keyboard check
 
-///Animate
 if (moving &amp;&amp; curr_state==state.ORION_STATE1) {
 //show_message("in if orion state 1");
   if(switchnext){
@@ -888,7 +889,10 @@ base = y + height;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>switchnext=false;
+            <string>/// Draw constellation
+trace(currFrame);
+
+switchnext=false;
 new_grd=ds_grid_create(2,ORION_NO_STARS);
 curr_grd=new_grd;
 curr_lines=grd_shape1_lines;
@@ -1168,7 +1172,7 @@ for (i=0;i&lt;no_stars;i++){
           </argument>
           <argument>
             <kind>5</kind>
-            <sprite>star</sprite>
+            <sprite>-100</sprite>
           </argument>
         </arguments>
       </action>

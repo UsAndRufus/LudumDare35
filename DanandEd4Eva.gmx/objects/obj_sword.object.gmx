@@ -63,28 +63,25 @@ y_offset = 256;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>///Attacking
+            <string>/// Move the sword to where it should be
+x = owner.x + x_offset;
+y = owner.y + y_offset;
 
-if (!attacking) {
-    if (keyboard_check_pressed(ord('A'))) {
-        attacking = true;
-        stabbing = true;
-    }
-} else {
-    how_long_stabbing += 1;
-    
-    if (how_long_stabbing &gt; frames_to_stab) {
-        how_long_stabbing = 0;
-        if (stabbing) {
-            stabbing = false;
-        } else {
-            attacking = false;
-        }
+//if (owner.dir == -1) {
+    //x -= owner.width;
+//}
+
+if (attacking) {
+    var offset = 0;
+    if (stabbing) {
+        offset = tween(how_long_stabbing, frames_to_stab, stab_distance);
+    } else {
+        offset = tween(how_long_stabbing, frames_to_stab, stab_distance);
+        offset = stab_distance - offset;
     }
     
+    x += offset * owner.dir;
 }
-
-
 </string>
           </argument>
         </arguments>
@@ -105,25 +102,29 @@ if (!attacking) {
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// Move the sword to where it should be
-x = owner.x + x_offset;
-y = owner.y + y_offset;
+            <string>///Attacking
 
-//if (owner.dir == -1) {
-    //x -= owner.width;
-//}
-
-if (attacking) {
-    var offset = 0;
-    if (stabbing) {
-        offset = tween(how_long_stabbing, frames_to_stab, stab_distance);
-    } else {
-        offset = tween(how_long_stabbing, frames_to_stab, stab_distance);
-        offset = stab_distance - offset;
+if (!attacking) {
+    if (keyboard_check_pressed(ord('A'))) {
+        attacking = true;
+        stabbing = true;
+        owner.curr_state = state.ORION_STATE2toATTACK;
+    }
+} else {
+    how_long_stabbing += 1;
+    
+    if (how_long_stabbing &gt; frames_to_stab) {
+        how_long_stabbing = 0;
+        if (stabbing) {
+            stabbing = false;
+        } else {
+            attacking = false;
+        }
     }
     
-    x += offset * owner.dir;
 }
+
+
 </string>
           </argument>
         </arguments>

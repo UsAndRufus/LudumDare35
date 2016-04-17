@@ -34,6 +34,7 @@
   </objects>
   <rooms name="rooms">
     <room>rooms\rm_main</room>
+    <room>rooms\room5</room>
     <room>rooms\rm_platform_test</room>
     <room>rooms\rm_tst</room>
     <room>rooms\room0</room>

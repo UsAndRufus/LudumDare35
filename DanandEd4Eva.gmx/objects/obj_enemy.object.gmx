@@ -25,15 +25,15 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>///Initialise variables
+            <string>/// Init movement + collision
+
+movespeed = 10;
 
 dir = -1;
-movespeed = 3;
+
 hsp = 0;
 vsp = 0;
 
-width = sprite_get_width(sprite_index);
-height = sprite_get_height(sprite_index);
 </string>
           </argument>
         </arguments>

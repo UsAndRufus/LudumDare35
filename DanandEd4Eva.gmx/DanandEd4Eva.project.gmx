@@ -24,7 +24,7 @@
     <script>scripts\horizontal_move_with_collision.gml</script>
   </scripts>
   <objects name="objects">
-    <object>objects\obj_enemy_dumb</object>
+    <object>objects\obj_enemy</object>
     <object>objects\obj_platform_man</object>
     <object>objects\obj_star</object>
     <object>objects\obj_sword</object>

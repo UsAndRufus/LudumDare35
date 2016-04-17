@@ -26,16 +26,19 @@
           <argument>
             <kind>1</kind>
             <string>///Init
-frames_to_stab = 30;
+frames_to_stab = 7;
 
-attacking = true;
+attacking = false;
 stabbing = true;
 
 how_long_stabbing = 0;
 
-stab_distance = 15;
+stab_distance = 96;
 
 owner = -1;
+
+x_offset = 200;
+y_offset = 256;
 
 
 </string>
@@ -103,8 +106,12 @@ if (!attacking) {
           <argument>
             <kind>1</kind>
             <string>/// Move the sword to where it should be
-x = owner.x;
-y = owner.y;
+x = owner.x + x_offset;
+y = owner.y + y_offset;
+
+//if (owner.dir == -1) {
+    //x -= owner.width;
+//}
 
 if (attacking) {
     var offset = 0;
@@ -115,8 +122,40 @@ if (attacking) {
         offset = stab_distance - offset;
     }
     
-    x += offset;
+    x += offset * owner.dir;
 }
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="4" ename="obj_enemy">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Check for hits
+if (stabbing) {
+    //if (place_meeting(x+5,y,obj_enemy)) {
+            with (other) {
+                instance_destroy();
+            }
+        owner.score += 1;
+    //}   
+}
+
 </string>
           </argument>
         </arguments>
